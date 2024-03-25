@@ -8,6 +8,47 @@ struct nodeType {
 };
 
 template<class Type>
+class linkedListType {
+public:
+  const linkedListType<Type>& operator=(const linkedListType<Type>&);  
+  void initializeList();
+  bool isEmpty() const;
+  void print() const;
+  int length() const;
+  void destroyList();
+  Type front() const;
+  Type back() const;
+  virtual bool search(const Type& searchItem) const = 0;
+  virtual bool insertFirst(const Type& newItem) const = 0;
+  virtual bool insertLast(const Type& newItem) const = 0;
+  virtual void deleteNode(const Type& deleteItem) = 0;
+
+protected:
+  int count;
+  nodeType<Type> *first;
+  nodeType<Type> *last;
+private:
+  void copyList(const linkedListType<Type>& otherList);
+};
+
+template<class Type>
+bool linkedListType<Type>::isEmpty() const { return first == nullptr; }
+
+template<class Type>
+void linkedListType<Type>::print() const {
+  nodeType<Type>* it = first;
+  cout << "Your list: \n";
+  while (it->link != nullptr) {
+    cout << it->info << "->";
+    it = it->link;
+  }
+  cout << it->info << '\n';
+}
+
+template<clas Type>
+int linkedListType::length() const { return count; }
+
+template<class Type>
 class linkedListIterator {
 public:
   linkedListIterator(); 
