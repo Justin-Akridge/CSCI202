@@ -16,11 +16,20 @@ int main(int argc, char* argv[]) {
     std::string s(argv[1]);
     binary_number = s;
   }
-  std::reverse(binary_number.begin(), binary_number.end());
+  //std::reverse(binary_number.begin(), binary_number.end());
+  // instead of reversing string we can stack items then pop
+  std::stack<int> bin_stk;
+  for (auto &ch : binary_number) {
+    bin_stk.push(ch - '0');
+  }
 
   int decimal = 0;
-  for (int i = 0; i < binary_number.size(); i++) {
-    decimal += binary_to_decimal(binary_number[i] - '0', i);
+  int weight = 0;
+  while (!bin_stk.empty()) {
+    int bit = bin_stk.top();
+    decimal += binary_to_decimal(bit, weight);
+    bin_stk.pop();
+    ++weight;
   }
   std::cout << decimal << '\n';
 }
