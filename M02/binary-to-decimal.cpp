@@ -11,25 +11,30 @@ int main(int argc, char* argv[]) {
 
   std::string binary_number; 
   if (argc < 2) {
-    std::cout << "Enter a binary number: ";
+    std::cout << "Enter a binary number or -999 to quit: ";
     std::cin >> binary_number;
   } else {
     std::string s(argv[1]);
     binary_number = s;
   }
 
-  std::stack<int> bin_stk;
-  for (auto &ch : binary_number) {
-    bin_stk.push(ch - '0');
-  }
+  while (binary_number != "-999") {
+    std::stack<int> bin_stk;
+    for (auto &ch : binary_number) {
+      bin_stk.push(ch - '0');
+    }
 
-  int decimal = 0;
-  int weight = 0;
-  while (!bin_stk.empty()) {
-    int bit = bin_stk.top();
-    decimal += binary_to_decimal(bit, weight);
-    bin_stk.pop();
-    ++weight;
+    int decimal = 0;
+    int weight = 0;
+    while (!bin_stk.empty()) {
+      int bit = bin_stk.top();
+      decimal += binary_to_decimal(bit, weight);
+      bin_stk.pop();
+      ++weight;
+    }
+    std::cout << decimal << "\n\n";
+    std::cout << "Enter a binary number or -999 to quit: ";
+    std::cin >> binary_number;
   }
-  std::cout << decimal << '\n';
+  std::cout << "Exiting program...";
 }
