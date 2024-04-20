@@ -12,9 +12,24 @@ int main() {
   tree.insert(6);
   tree.insert(8);
   int leaves = tree.treeLeavesCount();
+  tree.inorderTraversal();
+  cout << "\nNumber of leaves in the binary tree: " << leaves << "\n\n";
 
-  cout << "Number of leaves in the binary tree: " << leaves << endl;
+  tree.insert(11);
+  tree.insert(21);
+  tree.insert(11);
+  tree.insert(23);
+  tree.insert(44);
+  leaves = tree.treeLeavesCount();
+  tree.inorderTraversal();
+  cout << "\nNumber of leaves in the binary tree: " << leaves << "\n\n";
 
-  return 0;
+  tree.insert(32);
+  tree.insert(35);
+  tree.insert(49);
+  tree.insert(51);
+  tree.insert(23);
+  leaves = tree.treeLeavesCount();
+  tree.inorderTraversal();
+  cout << "\nNumber of leaves in the binary tree: " << leaves << endl;
 }
-

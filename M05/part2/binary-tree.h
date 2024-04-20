@@ -28,8 +28,7 @@ public:
     binaryTreeType(const binaryTreeType<elemType>& otherTree); 
     binaryTreeType();   
     ~binaryTreeType();   
-protected:
-    nodeType<elemType>  *root;
+    nodeType<elemType> *root;
 private:
     void copyTree(nodeType<elemType>* &copiedTreeRoot,
                   nodeType<elemType>* otherTreeRoot);
@@ -120,9 +119,9 @@ void  binaryTreeType<elemType>::copyTree
 template <class elemType>
 void binaryTreeType<elemType>::inorder(nodeType<elemType> *p) const {
   if (p != nullptr) {
-    inorder(p->lLink);
+    inorder(p->left);
     cout << p->info << " ";
-    inorder(p->rLink);
+    inorder(p->right);
   }
 }
 
