@@ -1,0 +1,10 @@
+Cannot push to full array
+error: Cannot pop from empty array
+error: Cannot pop from empty array
+error: Cannot pop from empty array
+error: Cannot pop from empty array
+error: Cannot pop from empty array
+error: Cannot pop from empty array
+error: Cannot pop from empty array
+error: Cannot pop from empty array
+error: Cannot pop from empty array
