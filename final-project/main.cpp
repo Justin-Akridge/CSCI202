@@ -219,7 +219,49 @@ public:
   }
 
   // TODO []: Do this!
-  void bubble_sort() {}
+  void bubble_sort() {
+    bool swapped;
+    for (int i = 0; i < last_index - 1; i++) {
+      swapped = false;
+      for (int j = 0; j < last_index - i - 1; j++) {
+        if (arr[j] > arr[j + 1]) {
+          std::swap(arr[j], arr[j+1]);
+          swapped = true;
+        }
+      }
+
+      if (!swapped) {
+        break;
+      }
+    }
+  }
+
+  int partition(int low, int high) {
+    int pivot = arr[high];
+
+    int i = (low - 1);
+
+    for (int j = low; j <= high; j++) {
+      if (arr[j] < pivot) {
+        i++;
+        std::swap(arr[i], arr[j]);
+      }
+    }
+    std::swap(arr[i + 1], arr[high]);
+    return (i + 1);
+  }
+
+  void quick_sort(int low, int high) {
+    if (low < high) {
+      int pi = partition(low, high);
+      quick_sort(low, pi - 1);
+      quick_sort(pi + 1, high);
+    }
+  }
+
+  int get_last_index() const {
+    return last_index;
+  }
 
 private:
   int last_index;
@@ -232,7 +274,8 @@ int main() {
   Array arr;
   arr.initialize();
   arr.print();
-  arr.selection_sort();
+  arr.quick_sort(0, arr.get_last_index());
+  arr.print();
 
 }
 
