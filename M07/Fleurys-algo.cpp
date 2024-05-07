@@ -4,7 +4,9 @@
 #include <cstring>
 #include <string>
 
+//comment
 class Graph {
+
     int v;
     std::list<int> *adj;
 public:
