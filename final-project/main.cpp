@@ -355,9 +355,9 @@ public:
   int leaves_count() const;
   void destroy_tree();
 
-  virtual bool search(const Type& search_item) const = 0; 
-  virtual void insert(const Type& insert_item) = 0; 
-  virtual void delete_node(const Type& delete_item) = 0; 
+  bool search(const Type& search_item) const;
+  void insert(const Type& insert_item); 
+  void delete_node(const Type& delete_item);
 
 protected:
     Node<Type>  *root;
@@ -439,7 +439,7 @@ template <class Type>
 void binary_tree<Type>::inorder(Node<Type> *p) const {
   if (p != nullptr) {
     inorder(p->left);
-    std::cout << inorder(p->val) << " ";
+    std::cout << p->value << " ";
     inorder(p->right);
   }
 }
@@ -447,7 +447,7 @@ void binary_tree<Type>::inorder(Node<Type> *p) const {
 template <class Type>
 void binary_tree<Type>::preorder(Node<Type> *p) const {
   if (p != nullptr) {
-    std::cout << inorder(p->val) << " ";
+    std::cout << p->value << " ";
     inorder(p->left);
     inorder(p->right);
   }
@@ -458,21 +458,154 @@ void binary_tree<Type>::postorder(Node<Type> *p) const {
   if (p != nullptr) {
     inorder(p->left);
     inorder(p->right);
-    std::cout << inorder(p->val) << " ";
+    std::cout << p->value << " ";
   }
 }
 
-// TODO []: assignment operator
 template <class Type>
-const binary_tree<Type>& binary_tree<Type>::operator=(const binary_tree<Type> &other_tree){}
-//    int height(Node<Type> *p) const;
-//    int max(int x, int y) const;
-//    int node_count(Node<Type> *p) const;
-//    int leaves_count(Node<Type> *p) const;
-//binary_trees();
-//maps();
-//void linked_list();
-//void graphs();
+void  binary_tree<Type>::destroy(Node<Type>* &p) {
+  if (p != nullptr) {
+    destroy(p->left);
+    destroy(p->right);
+    delete p;
+    p = nullptr;
+  }
+}
+
+template <class Type>
+binary_tree<Type>::binary_tree(const binary_tree<Type>& otherTree) {
+  if (otherTree.root == nullptr)
+    root = nullptr;
+  else
+    copyTree(root, otherTree.root);
+}
+
+template <class Type>
+binary_tree<Type>::~binary_tree() {
+  destroy(root);
+}
+
+template<class Type>
+int binary_tree<Type>::height(Node<Type> *p) const {
+  if (p == nullptr)
+    return 0;
+  else
+    return 1 + max(height(p->left), height(p->right));
+}
+
+template <class Type>
+int binary_tree<Type>::max(int x, int y) const {
+  if (x >= y)
+    return x;
+  else
+    return y;
+}
+
+template <class Type>
+int binary_tree<Type>::node_count(Node<Type> *p) const {
+  if (p == nullptr)
+    return 0;
+  else
+    return 1 + node_count(p->left) + node_count(p->right);
+}
+
+template <class Type>
+int binary_tree<Type>::leaves_count(Node<Type> *p) const {
+  if (p->left == nullptr && p->right == nullptr) {
+    return 1;
+  }
+  leaves_count(p->left);
+  leaves_count(p->right);
+}
+
+template <class Type>
+void binary_tree<Type>::insert(const Type& insertItem) {
+  Node<Type> *current;
+  Node<Type> *trailCurrent = nullptr; 
+  Node<Type> *newNode;
+
+  newNode = new Node<Type>;
+  newNode->value = insertItem;
+  newNode->left = nullptr;
+  newNode->right = nullptr;
+
+  if (root == nullptr)
+    root = newNode;
+  else {
+    current = root;
+
+    while (current != nullptr) {
+      trailCurrent = current;
+
+      if (current->value == insertItem) {
+        std::cout << "The item to be inserted is already ";
+        std::cout << "in the tree -- duplicates are not "
+             << "allowed." << std::endl;
+        return;
+      }
+      else if (current->value > insertItem)
+        current = current->left;
+      else
+        current = current->right;
+  }
+  if (trailCurrent->value > insertItem)
+    trailCurrent->left = newNode;
+  else
+    trailCurrent->right = newNode;
+  }
+}
+
+void binary_trees() {
+  binary_tree<int> tree;
+
+  std::cout << "a binary tree is a tree data structure in which each node has at most two children, referred to as the left child and the right child.\nThere are several different algorithms that can be performed on a binary tree.\n";
+  char input;
+  do {
+    std::cout << "Select the algorithm you would like to see.\n"
+              << "1. Insertion \n"
+              << "2. Search Item \n"
+              << "3. Node count \n"
+              << "4. Leave count \n"
+              << "5. Tree height \n"
+              << "6. Preorder traversal \n"
+              << "7. Inorder traversal \n"
+              << "8. Postorder traversal \n"
+              << "0. Quit\n"
+              << "input: ";
+    std::cin >> input;
+    std::cout << '\n';
+    switch (input) {
+      case '1':
+        for (int i = 0; i < 10; i++) {
+          std::cout << "insert -> " << i << '\n';
+          tree.insert(i);
+          tree.preorder_traversal();
+          std::cout << "\n\n";
+        }
+        break;
+      case '2':
+        break;
+      case '3':
+        break;
+      case '4':
+        break;
+      case '5':
+        break;
+      case '6':
+        break;
+      case '7':
+        break;
+      case '8':
+        break;
+      default:
+        std::cerr << "Error: Invalid input. Please select number between 1-5\n";
+        break;
+    }
+  }
+  while (input != '0');
+  // need to reset array to initialization to visualize next operation if requested
+  //array.initialize;
+}
 
 int main() {
   std::cout << "Welcome to the algorithm and data structure menu\n";
@@ -500,7 +633,7 @@ int main() {
         //linked_list();
         break;
       case '4':
-        //trees();
+        binary_trees();
         break;
       case '5':
         //graphs();
