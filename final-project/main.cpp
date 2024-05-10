@@ -354,13 +354,15 @@ public:
   int node_count() const;
   int leaves_count() const;
   void destroy_tree();
+  Type* get_root() const;
 
   bool search(const Type& search_item) const;
   void insert(const Type& insert_item); 
   void delete_node(const Type& delete_item);
+  void insert_values_into_tree();
 
 protected:
-    Node<Type>  *root;
+    Node<Type> *root;
 
 private:
     void copy_tree(Node<Type>* &copied_tree_root, 
@@ -375,6 +377,17 @@ private:
     int leaves_count(Node<Type> *p) const;
 };
 
+template <typename Type>
+Type* binary_tree<Type>::get_root() const {
+  return root;
+}
+
+template <typename Type>
+void binary_tree<Type>::insert_values_into_tree() {
+  for (int i = 0; i < 20; i++) {
+    insert(i); 
+  }
+}
 
 template <class Type>
 binary_tree<Type>::binary_tree() {
@@ -409,12 +422,12 @@ int binary_tree<Type>::tree_height() const {
 
 template <class Type>
 int binary_tree<Type>::node_count() const {
-  node_count(root);
+  return node_count(root);
 }
 
 template <class Type>
 int binary_tree<Type>::leaves_count() const {
-  leaves_count(root);
+  return leaves_count(root);
 }
 
 template <class Type>
@@ -463,7 +476,7 @@ void binary_tree<Type>::postorder(Node<Type> *p) const {
 }
 
 template <class Type>
-void  binary_tree<Type>::destroy(Node<Type>* &p) {
+void binary_tree<Type>::destroy(Node<Type>* &p) {
   if (p != nullptr) {
     destroy(p->left);
     destroy(p->right);
@@ -555,6 +568,27 @@ void binary_tree<Type>::insert(const Type& insertItem) {
   }
 }
 
+template <class Type>
+bool binary_tree<Type>::search(const Type& searchItem) const {
+  Node<Type> *current;
+  bool found = false;
+
+  if (root == nullptr)
+    std::cout << "Cannot search an empty tree." << std::endl;
+  else { 
+   current = root;
+   while (current != nullptr && !found) {
+     if (current->value == searchItem)
+       found = true;
+     else if (current->value > searchItem)
+       current = current->left;
+     else
+       current = current->right;
+     }
+  }
+  return found;
+}
+ 
 void binary_trees() {
   binary_tree<int> tree;
 
@@ -576,6 +610,7 @@ void binary_trees() {
     std::cout << '\n';
     switch (input) {
       case '1':
+        tree.node_count();
         for (int i = 0; i < 10; i++) {
           std::cout << "insert -> " << i << '\n';
           tree.insert(i);
@@ -584,10 +619,27 @@ void binary_trees() {
         }
         break;
       case '2':
+        tree.insert_values_into_tree();
+        std::cout << "Searching for the number 10....\n";
+        if (tree.search(10)) {
+          std::cout << "Value 10 found in the list!\n";
+        } else {
+          std::cout << "Value 10 was not found in the list!\n";
+        }
+        tree.destroy_tree();
         break;
       case '3':
+        tree.insert_values_into_tree();
+        std::cout << "Collecting the node count...\n";
+        std::cout << "There are " << tree.node_count() << " in the tree\n";
+        tree.destroy_tree();
         break;
       case '4':
+        tree.insert_values_into_tree();
+        tree.preorder_traversal();
+        std::cout << "Collecting the leave count...\n";
+        std::cout << "There are " << tree.leaves_count() << " in the tree\n";
+        tree.destroy_tree();
         break;
       case '5':
         break;
